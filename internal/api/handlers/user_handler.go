@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"footnote-backend/internal/api/models"
 	"footnote-backend/internal/api/services"
+	"footnote-backend/internal/consts"
 	"footnote-backend/internal/db/repositories"
 	"net/http"
 
@@ -51,7 +52,7 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.SetCookie(w, &http.Cookie{
-		Name:     "auth_token",
+		Name:     consts.AuthTokenCookieName,
 		Value:    tokenString,
 		Path:     "/",
 		HttpOnly: true,
@@ -86,7 +87,7 @@ func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	http.SetCookie(w, &http.Cookie{
-		Name:     "auth_token",
+		Name:     consts.AuthTokenCookieName,
 		Value:    tokenString,
 		Path:     "/",
 		HttpOnly: true,

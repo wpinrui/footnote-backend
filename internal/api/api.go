@@ -2,6 +2,7 @@ package api
 
 import (
 	"footnote-backend/internal/api/handlers"
+	"footnote-backend/internal/api/middleware"
 	"footnote-backend/internal/api/routes"
 	"footnote-backend/internal/config"
 	"net/http"
@@ -16,10 +17,10 @@ type API struct {
 	Wg     *sync.WaitGroup
 }
 
-func NewAPI(cfg *config.Config, handlers *handlers.Handlers) *API {
+func NewAPI(cfg *config.Config, handlers *handlers.Handlers, middleware *middleware.Middleware) *API {
 	router := chi.NewRouter()
 	// router.Use(middleware.something) // Add any middleware you need here
-	routes.SetupRoutes(router, handlers)
+	routes.SetupRoutes(router, handlers, middleware)
 	return &API{
 		Router: router,
 		Config: cfg,

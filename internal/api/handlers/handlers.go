@@ -6,11 +6,13 @@ import (
 )
 
 type Handlers struct {
-	UserHandler *UserHandler
+	UserHandler     *UserHandler
+	FootnoteHandler *FootnoteHandler
 }
 
-func NewHandlers(ur *repositories.UserRepository, services *services.Services) *Handlers {
+func NewHandlers(ur *repositories.UserRepository, fr *repositories.FootnoteRepository, services *services.Services) *Handlers {
 	return &Handlers{
-		UserHandler: NewUserHandler(ur, services.TokenService),
+		UserHandler:     NewUserHandler(ur, services.TokenService),
+		FootnoteHandler: NewFootnoteHandler(fr),
 	}
 }

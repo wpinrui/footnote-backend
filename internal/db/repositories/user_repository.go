@@ -6,7 +6,7 @@ import (
 )
 
 type UserRepositoryInterface interface {
-	Create(*models.User) error
+	Create(*models.User) (int, error)
 }
 
 type UserRepository struct {
