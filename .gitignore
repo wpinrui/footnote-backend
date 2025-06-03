@@ -1,3 +1,5 @@
 .env
 # Debugging files
 cmd/__debug*
+.DS_Store
+.DS_Store
