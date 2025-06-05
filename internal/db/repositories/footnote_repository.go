@@ -16,10 +16,10 @@ func NewFootnoteRepository(db *sql.DB) *FootnoteRepository {
 func (fr *FootnoteRepository) Create(f *models.Footnote) (int, error) {
 	var id int
 	err := fr.DB.QueryRow(`
-		INSERT INTO footnotes (uid, content)
-		VALUES ($1, $2)
+		INSERT INTO footnotes (uid, content, day)
+		VALUES ($1, $2, $3)
 		RETURNING id
-	`, f.UserId, f.Content).Scan(&id)
+	`, f.UserId, f.Content, f.Day).Scan(&id)
 	return id, err
 }
 

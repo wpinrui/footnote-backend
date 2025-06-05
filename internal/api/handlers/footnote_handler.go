@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -22,6 +23,14 @@ func NewFootnoteHandler(fr *repositories.FootnoteRepository) *FootnoteHandler {
 	}
 }
 
+// CreateFootnote godoc
+// @Description Adds a footnote for the authenticated user
+// @Tags footnote
+// @Accept json
+// @Produce json
+// @Param request body CreateFootnoteRequest true "Footnote content and day"
+// @Success 201 {object} CreateFootnoteResponse
+// @Router /footnote [post]
 func (fh *FootnoteHandler) CreateFootnote(w http.ResponseWriter, r *http.Request) {
 	userId, err := middleware.UserIdFromContext(r.Context())
 	if err != nil {
@@ -35,9 +44,20 @@ func (fh *FootnoteHandler) CreateFootnote(w http.ResponseWriter, r *http.Request
 		return
 	}
 
+	if strings.TrimSpace(req.Content) == "" {
+		http.Error(w, "Footnote content cannot be empty", http.StatusBadRequest)
+		return
+	}
+
+	if strings.TrimSpace(req.Day) == "" {
+		http.Error(w, "Footnote day cannot be empty", http.StatusBadRequest)
+		return
+	}
+
 	footnote := &models.Footnote{
 		UserId:  userId,
 		Content: req.Content,
+		Day:     req.Day,
 	}
 
 	id, err := fh.FootnoteRepository.Create(footnote)

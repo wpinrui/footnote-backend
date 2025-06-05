@@ -1,3 +1,8 @@
+// @title Footnote API
+// @version 1.0
+// @description API for managing footnotes
+// @BasePath /
+
 package main
 
 import (
@@ -10,6 +15,8 @@ import (
 	"footnote-backend/internal/db"
 	"footnote-backend/internal/db/repositories"
 	"path/filepath"
+
+	_ "footnote-backend/docs"
 
 	"github.com/joho/godotenv"
 )

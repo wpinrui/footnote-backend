@@ -1,0 +1,43 @@
+basePath: /
+definitions:
+  handlers.CreateFootnoteRequest:
+    properties:
+      content:
+        type: string
+      day:
+        type: string
+    type: object
+  handlers.CreateFootnoteResponse:
+    properties:
+      id:
+        example: 123
+        type: integer
+    type: object
+info:
+  contact: {}
+  description: API for managing footnotes
+  title: Footnote API
+  version: "1.0"
+paths:
+  /footnote:
+    post:
+      consumes:
+      - application/json
+      description: Adds a footnote for the authenticated user
+      parameters:
+      - description: Footnote content and day
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateFootnoteRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.CreateFootnoteResponse'
+      tags:
+      - footnote
+swagger: "2.0"

@@ -1,0 +1,2 @@
+ALTER TABLE footnotes
+ADD COLUMN day DATE NOT NULL;
