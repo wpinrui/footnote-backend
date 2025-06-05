@@ -8,6 +8,6 @@ type Services struct {
 
 func NewServices(cfg *config.Config) *Services {
 	return &Services{
-		TokenService: NewTokenService(cfg.JWT_SECRET),
+		TokenService: NewTokenService(cfg.JwtSecret),
 	}
 }

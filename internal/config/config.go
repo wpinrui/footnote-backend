@@ -1,21 +1,42 @@
 package config
 
 import (
-	"flag"
+	"fmt"
 	"os"
 )
 
 type Config struct {
-	DSN        string
-	JWT_SECRET string
+	Dsn       string
+	JwtSecret string
+	Env       string
 }
 
 func NewConfig() *Config {
-	return &Config{}
-}
+	env := os.Getenv("ENV") // e.g. "local" or "cloud"
 
-func (cfg *Config) ParseFlags() error {
-	flag.StringVar(&cfg.DSN, "dsn", os.Getenv("DSN"), "Database connection string")
-	flag.StringVar(&cfg.JWT_SECRET, "jwt_secret", os.Getenv("JWT_SECRET"), "JWT secret key")
-	return nil
+	var dsn string
+	if env == "local" {
+		dbHost := os.Getenv("DB_HOST")
+		dbPort := os.Getenv("DB_PORT")
+		dbUser := os.Getenv("DB_USER")
+		dbPassword := os.Getenv("DB_PASS")
+		dbName := os.Getenv("DB_NAME")
+		dsn = fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+			dbHost, dbPort, dbUser, dbPassword, dbName)
+	} else {
+		// Use Cloud SQL via Unix socket
+		dbUser := os.Getenv("DB_USER")
+		dbPassword := os.Getenv("DB_PASS")
+		dbName := os.Getenv("DB_NAME")
+		instanceConnName := os.Getenv("INSTANCE_CONNECTION_NAME")
+
+		dsn = fmt.Sprintf("host=/cloudsql/%s user=%s password=%s dbname=%s sslmode=disable",
+			instanceConnName, dbUser, dbPassword, dbName)
+	}
+
+	return &Config{
+		Dsn:       dsn,
+		JwtSecret: os.Getenv("JWT_SECRET"),
+		Env:       env,
+	}
 }

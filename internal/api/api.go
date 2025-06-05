@@ -6,6 +6,7 @@ import (
 	"footnote-backend/internal/api/routes"
 	"footnote-backend/internal/config"
 	"net/http"
+	"os"
 	"sync"
 
 	"github.com/go-chi/chi/v5"
@@ -28,9 +29,14 @@ func NewAPI(cfg *config.Config, handlers *handlers.Handlers, middleware *middlew
 }
 
 func (api *API) Run() error {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":" + port,
 		Handler: api.Router,
 	}
 	return srv.ListenAndServe()
+
 }
