@@ -5,6 +5,8 @@ import (
 	"footnote-backend/internal/cloudsql"
 	"footnote-backend/internal/config"
 	"os"
+
+	_ "github.com/lib/pq"
 )
 
 func Connect(cfg *config.Config) (*sql.DB, error) {
