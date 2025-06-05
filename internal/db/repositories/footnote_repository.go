@@ -25,7 +25,7 @@ func (fr *FootnoteRepository) Create(f *models.Footnote) (int, error) {
 
 func (fr *FootnoteRepository) ListByUser(userId int) ([]*models.Footnote, error) {
 	rows, err := fr.DB.Query(`
-		SELECT id, uid, content
+		SELECT id, uid, content, day
 		FROM footnotes
 		WHERE uid = $1
 		ORDER BY id DESC
@@ -49,7 +49,7 @@ func (fr *FootnoteRepository) ListByUser(userId int) ([]*models.Footnote, error)
 func (fr *FootnoteRepository) GetByID(id, userId int) (*models.Footnote, error) {
 	var f models.Footnote
 	err := fr.DB.QueryRow(`
-		SELECT id, uid, content
+		SELECT id, uid, content, day
 		FROM footnotes
 		WHERE id = $1 AND uid = $2
 	`, id, userId).Scan(&f.Id, &f.UserId, &f.Content)
@@ -78,7 +78,7 @@ func (fr *FootnoteRepository) Delete(id, userId int) error {
 
 func (fr *FootnoteRepository) Search(userId int, query string) ([]*models.Footnote, error) {
 	rows, err := fr.DB.Query(`
-		SELECT id, uid, content
+		SELECT id, uid, content, day
 		FROM footnotes
 		WHERE uid = $1 AND content ILIKE '%' || $2 || '%'
 		ORDER BY id DESC
