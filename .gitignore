@@ -2,3 +2,5 @@
 # Debugging files
 cmd/__debug*
 .DS_Store
+docs/swagger.json
+docs/swagger.yaml

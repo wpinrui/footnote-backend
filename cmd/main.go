@@ -2,6 +2,9 @@
 // @version 1.0
 // @description API for managing footnotes
 // @BasePath /
+// @securityDefinitions.apikey cookieAuth
+// @in cookie
+// @name auth_token
 
 package main
 

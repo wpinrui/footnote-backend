@@ -23,6 +23,17 @@ func NewUserHandler(ur *repositories.UserRepository, tk *services.TokenService) 
 	}
 }
 
+// CreateUser godoc
+// @Summary Create a new user
+// @Description Registers a new user and returns an auth token in a cookie
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param request body CreateUserRequest true "User registration data"
+// @Success 201 {string} string "Created, auth token set in cookie"
+// @Failure 400 {string} string "Invalid request payload"
+// @Failure 500 {string} string "Failed to create user or generate token"
+// @Router /users/create [post]
 func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	var req CreateUserRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -63,6 +74,18 @@ func (uh *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+// Login godoc
+// @Summary User login
+// @Description Authenticates a user and sets an auth token cookie
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param request body LoginRequest true "User login credentials"
+// @Success 200 {string} string "OK, auth token set in cookie"
+// @Failure 400 {string} string "Invalid request payload"
+// @Failure 401 {string} string "Invalid email or password"
+// @Failure 500 {string} string "Failed to generate token"
+// @Router /users/login [post]
 func (uh *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	var req LoginRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {

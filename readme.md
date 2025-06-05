@@ -49,16 +49,27 @@ You can check that the tables have been created successfully by running:
 psql "$DSN" -c "\dt"
 ```
 
-### 5. Run the backend
+### 5. Install swag globally (recommended)
+
+```bash
+go install github.com/swaggo/swag/cmd/swag@latest
+# Add swag to path, then reload
+echo 'export PATH="$PATH:$(go env GOPATH)/bin"' >> ~/.zshrc
+```
+
+### 6. Run the backend
 
 #### Option 1: Using VSCode launch config
 
 Open VSCode
 
 - Use the `.vscode/launch.json` configuration to start the server
+- Note that `launch.json` will attempt to update swagger docs. If you chose not to setup swag, this step can fail but you can still continue debugging.
 
 #### Option 2: Using Go CLI
 
 ```bash
+# if making changes to swagger
+swag init --generalInfo cmd/main.go
 go run cmd/main.go
 ```
