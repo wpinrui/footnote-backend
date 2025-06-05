@@ -94,9 +94,6 @@ func (fh *FootnoteHandler) GetFootnotes(w http.ResponseWriter, r *http.Request) 
 
 	footnotes, err := fh.FootnoteRepository.ListByUser(userId)
 	if err != nil {
-		// Log the error before responding
-		// You can use the standard log package or a structured logger if available
-		// Example with standard log:
 		log.Printf("failed to get footnotes for user %d: %v", userId, err)
 		http.Error(w, "Failed to get footnotes", http.StatusInternalServerError)
 		return
