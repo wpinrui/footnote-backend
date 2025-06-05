@@ -1,5 +1,7 @@
 FROM golang:1.24
 
+ENV HOST 0.0.0.0
+
 WORKDIR /app
 COPY . .
 
